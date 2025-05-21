@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from datetime import date
-import logging
+
+from ..analytics import record_mood
 
 from ..services import (
     get_supabase,
@@ -11,9 +11,6 @@ from ..services import (
     search_movies_by_genre_or_mood,
 )
 from ..services.recommender import recommend_for_mood
-
-logger = logging.getLogger(__name__)
-analytics = {"calls_per_day": {}, "mood_counts": {}}
 
 router = APIRouter()
 
@@ -31,14 +28,10 @@ class MoodRequest(BaseModel):
 @router.post("/recommendations")
 async def post_recommendations(payload: MoodRequest):
     """Accept a mood string and return AI-driven recommendations."""
-    today = date.today().isoformat()
-    analytics["calls_per_day"][today] = analytics["calls_per_day"].get(today, 0) + 1
-    analytics["mood_counts"][payload.mood] = analytics["mood_counts"].get(payload.mood, 0) + 1
-    logger.info("Generating recommendations for mood '%s'", payload.mood)
+    record_mood(payload.mood)
     try:
         recs = await recommend_for_mood(payload.mood)
     except Exception:
-        logger.exception("Recommendation generation failed")
         raise HTTPException(status_code=500, detail="Failed to generate recommendations")
 
     return {"recommendations": recs, "mood": payload.mood}
