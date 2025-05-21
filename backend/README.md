@@ -4,7 +4,7 @@ This directory contains the FastAPI backend for MoodStream AI. It exposes a REST
 
 ## Development
 
-Copy `.env.example` to `.env` and fill in your API keys.
+Copy `.env.example` to `.env` and fill in your Supabase and TMDB API keys.
 
 Install dependencies and run the server:
 
