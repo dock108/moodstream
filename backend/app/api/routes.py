@@ -12,6 +12,16 @@ async def get_recommendations():
     return {"recommendations": []}
 
 
+class MoodRequest(BaseModel):
+    mood: str
+
+
+@router.post("/recommendations")
+async def post_recommendations(payload: MoodRequest):
+    """Accept a mood string and return placeholder recommendations."""
+    return {"recommendations": [], "mood": payload.mood}
+
+
 class AuthRequest(BaseModel):
     email: str
     password: str
