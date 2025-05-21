@@ -64,9 +64,10 @@ async def _validate_item(item: Dict[str, Any]) -> Optional[Dict[str, Any]]:
             return {
                 "title": movie["title"],
                 "type": "movie",
-                "genre": ", ".join(movie.get("genres", [])),
+                "genre": movie.get("genres", []),
                 "reason": reason,
-                "metadata": movie,
+                "image_url": movie.get("poster_url"),
+                "tmdb_id": movie.get("id"),
             }
 
     if typ in {"game", "video game"}:
@@ -76,9 +77,10 @@ async def _validate_item(item: Dict[str, Any]) -> Optional[Dict[str, Any]]:
             return {
                 "title": game["title"],
                 "type": "game",
-                "genre": ", ".join(game.get("genres", [])),
+                "genre": game.get("genres", []),
                 "reason": reason,
-                "metadata": game,
+                "image_url": game.get("cover_image"),
+                "igdb_id": game.get("id"),
             }
 
     return None
@@ -93,9 +95,10 @@ async def fallback_recommendations(mood: str) -> List[Dict[str, Any]]:
             {
                 "title": movie["title"],
                 "type": "movie",
-                "genre": ", ".join(movie.get("genres", [])),
+                "genre": movie.get("genres", []),
                 "reason": f"Popular {', '.join(movie.get('genres', []))} movie for mood '{mood}'.",
-                "metadata": movie,
+                "image_url": movie.get("poster_url"),
+                "tmdb_id": movie.get("id"),
             }
         )
     return recs
