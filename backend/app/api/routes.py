@@ -1,7 +1,11 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 
-from ..services import get_supabase
+from ..services import (
+    get_supabase,
+    get_game_by_id,
+    search_games_by_genre_or_keyword,
+)
 
 router = APIRouter()
 
@@ -31,3 +35,15 @@ async def login(payload: AuthRequest):
     sb = get_supabase()
     result = sb.auth.sign_in_with_password({"email": payload.email, "password": payload.password})
     return {"session": result.session, "user": result.user}
+
+
+@router.get("/games/{igdb_id}")
+async def game_by_id(igdb_id: int):
+    game = await get_game_by_id(igdb_id)
+    return {"game": game}
+
+
+@router.get("/games/search")
+async def search_games(q: str):
+    results = await search_games_by_genre_or_keyword(q)
+    return {"results": results}

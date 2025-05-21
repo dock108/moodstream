@@ -4,6 +4,8 @@ from pydantic import BaseSettings
 class Settings(BaseSettings):
     gpt_api_key: str | None = None
     tmdb_api_key: str | None = None
+    twitch_client_id: str | None = None
+    twitch_client_secret: str | None = None
     allowed_origins: str = "http://localhost:3000"
 
     class Config:
