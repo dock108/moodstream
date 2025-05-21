@@ -123,3 +123,19 @@ async def search_movies_by_genre_or_mood(mood: str) -> List[Dict[str, Any]]:
     movies = [_parse_movie(item) for item in payload.get("results", [])]
     _CACHE[key] = (now, movies)
     return movies
+
+
+async def search_movie_by_title(title: str) -> Optional[Dict[str, Any]]:
+    """Return a single movie matching the given title if found."""
+    params = {"query": title, "include_adult": False}
+    payload = await _request("/search/movie", params=params)
+    results = payload.get("results", [])
+    if not results:
+        return None
+
+    for item in results:
+        movie = _parse_movie(item)
+        if movie["title"].lower() == title.lower():
+            return movie
+
+    return _parse_movie(results[0])

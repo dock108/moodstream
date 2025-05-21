@@ -8,6 +8,7 @@ from ..services import (
     get_movie_by_id,
     search_movies_by_genre_or_mood,
 )
+from ..services.recommender import recommend_for_mood
 
 router = APIRouter()
 
@@ -24,8 +25,12 @@ class MoodRequest(BaseModel):
 
 @router.post("/recommendations")
 async def post_recommendations(payload: MoodRequest):
-    """Accept a mood string and return placeholder recommendations."""
-    return {"recommendations": [], "mood": payload.mood}
+    """Accept a mood string and return AI-driven recommendations."""
+    try:
+        recs = await recommend_for_mood(payload.mood)
+    except Exception:
+        raise HTTPException(status_code=500, detail="Failed to generate recommendations")
+    return {"recommendations": recs, "mood": payload.mood}
 
 
 class AuthRequest(BaseModel):
