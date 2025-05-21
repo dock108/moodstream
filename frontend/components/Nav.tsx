@@ -17,6 +17,7 @@ export default function Nav() {
       ) : (
         <Link href="/login">Login</Link>
       )}
+      <Link href="/results">Results</Link>
     </nav>
   )
 }
