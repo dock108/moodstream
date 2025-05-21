@@ -1,25 +1,28 @@
 # MoodStream AI Backend
 
-This directory contains the FastAPI backend for MoodStream AI. It exposes a REST API for fetching entertainment recommendations.
+This directory contains the FastAPI backend for MoodStream AI. It exposes a REST
+API used by the frontend.
 
-## Development
+## Setup
 
-Copy `.env.example` to `.env` and fill in your Supabase and TMDB API keys.
+1. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+2. Copy `backend/.env.example` to `backend/.env` and add your Supabase keys.
+3. Copy `../.env.example` to `../.env` (or include the same values in
+   `backend/.env`) for `GPT_API_KEY`, `TMDB_API_KEY` and Twitch credentials.
+   See `../docs/SUPABASE_SETUP.md` for full details on the required variables.
 
-Install dependencies and run the server:
+## Running
+
+Start the development server from the `backend` directory:
 
 ```bash
-pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
-Copy `.env.example` to `.env` and configure your Supabase credentials before
-running the server. See `../docs/SUPABASE_SETUP.md` for full setup steps.
-
-The backend also integrates the IGDB API for video game metadata. Provide your
-Twitch client credentials in `.env` as `TWITCH_CLIENT_ID` and
-`TWITCH_CLIENT_SECRET`.
-
-You should be able to access `http://localhost:8000/ping` and receive a
-`{"message": "pong"}` response.
-
+Visit `http://localhost:8000/ping` to verify the server is running. The backend
+uses IGDB and TMDB for metadata; provide `TWITCH_CLIENT_ID`,
+`TWITCH_CLIENT_SECRET` and `TMDB_API_KEY` to enable those features. Supplying a
+`GPT_API_KEY` will enable GPT‑4 powered recommendations.
