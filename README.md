@@ -8,3 +8,6 @@ Supabase configuration instructions are available in `docs/SUPABASE_SETUP.md`.
 
 The backend can fetch video game metadata using the IGDB API. Set your Twitch
 client ID and secret in `.env` to enable these features.
+=======
+Database schema and RLS policies are defined in `docs/db/schema.sql`.
+
