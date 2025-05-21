@@ -11,3 +11,7 @@ client ID and secret in `.env` to enable these features.
 =======
 Database schema and RLS policies are defined in `docs/db/schema.sql`.
 
+The frontend stores user interactions ("Seen" or "Loved") in Supabase using the
+`user_content` table. Logged in users will see their saved status on the
+recommendations page.
+
