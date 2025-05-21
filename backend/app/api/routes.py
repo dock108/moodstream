@@ -3,6 +3,8 @@ from pydantic import BaseModel
 
 from ..services import (
     get_supabase,
+    get_game_by_id,
+    search_games_by_genre_or_keyword,
     get_movie_by_id,
     search_movies_by_genre_or_mood,
 )
@@ -47,6 +49,18 @@ async def login(payload: AuthRequest):
     return {"session": result.session, "user": result.user}
 
 
+@router.get("/games/{igdb_id}")
+async def game_by_id(igdb_id: int):
+    game = await get_game_by_id(igdb_id)
+    return {"game": game}
+
+
+@router.get("/games/search")
+async def search_games(q: str):
+    results = await search_games_by_genre_or_keyword(q)
+    return {"results": results}
+
+  
 @router.get("/tmdb/movie/{tmdb_id}")
 async def tmdb_movie(tmdb_id: int):
     """Fetch movie metadata from TMDB."""
