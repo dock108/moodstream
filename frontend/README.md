@@ -14,7 +14,7 @@ This folder contains the Next.js application for MoodStream AI. The project uses
    ```
    The app will be available at `http://localhost:3000`.
 
-Copy `.env.example` to `.env.local` and update the values for your project:
+Copy `.env.local.example` to `.env.local` and update the values for your project:
 
 ```
 NEXT_PUBLIC_SUPABASE_URL=
